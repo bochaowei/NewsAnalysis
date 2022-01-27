@@ -1,8 +1,8 @@
 ## NewAnalysis
 
 ### Features
-- Extractive Summarization based on **BART**
-- Question Answering
+- Text summarization based on T5 model
+- Question Answering based on DistillBert
 - Fraud Dectection
 - Sentiment Analysis
 

@@ -3,9 +3,11 @@ import torch
 from abc import ABC, abstractmethod
 from Define import *
 
-from transformers import BartTokenizer, BartForConditionalGeneration, BartConfig
+from transformers import BartTokenizer, BartForConditionalGeneration, BartConfig, AutoModelForSeq2SeqLM
 from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
 
+from Datagenerator import *
+from FruadDection import *
 
 class SystemModuleBase(ABC):
 
@@ -84,11 +86,14 @@ class FDSystemModule(SystemModuleBase):
         super(FDSystemModule, self).__init__(SystemModuleType.FD, tag, *args, **kwargs)
 
     def initialize(self):
-        pass
-
+        self.interface = FraudDectionInterface()
+    
     def handle(self, request):
-        pass
-
+        author = request.get('author')
+        title = request.get('title')
+        text = request.get('text')
+        score = self.interface.predict(author, title, text)
+        return score
 
 class SASystemModule(SystemModuleBase):
 
@@ -99,10 +104,9 @@ class SASystemModule(SystemModuleBase):
     def initialize(self):
         pass
 
-    def handle(self, request):
-        pass
 
 
 if __name__ == "__main__":
     qa = QASystemModule(tag=1)
     qa.initialize()
+
